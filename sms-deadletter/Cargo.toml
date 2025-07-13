@@ -1,0 +1,14 @@
+[package]
+name = "sms-deadletter"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+redis.workspace = true
+tokio.workspace = true
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+clap.workspace = true
+sms-core = { version = "0.1.0", path = "../sms-core" }
+

@@ -1,0 +1,9 @@
+- [x] Accept new job fields (scheduled_at, delay_ms) in incoming JSON.
+- [ ] Compute effective scheduled time from delay_ms or scheduled_at.
+- [ ] if scheduled:
+    - [ ] Push to redis sorted set sms_schdule_queue using ZADD <timestamp> <job>.
+- [ ] if not scheduled:
+    - [ ] Push to redis list sms_queue using RPUSH <job>.
+- [ ] Return job uuid and schedule info in response.
+- [ ] Log scheduling info (Scheduled for: ...).
+- [ ] Validate that scheduled time is not in the past (return 400 if it is).

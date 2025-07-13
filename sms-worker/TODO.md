@@ -1,0 +1,8 @@
+- [x] Keep consuming sms_queue as normal.
+- [ ] Add background task to:
+    - [ ] Periodically ZRANGEBYSCORE sms_schedule_queue 0 <now> for due jobs.
+    - [ ] For each job:
+        - [ ] RPUSH sms_queue
+        - [ ] ZREM from schedule queue.
+- [ ] (optional) Add config to adjust polling_interval (e.g. poll_interval_ms).
+- [ ] Handle metrics/logging for how many scheduled jobs moved.

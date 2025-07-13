@@ -1,0 +1,6 @@
+- [x] Fully modularize commands
+- [ ] Add scheduled monitor:
+    - [ ] List all jobs in sms_schedule_queue
+    - [ ] Delete a scheduled job by ID or index.
+    - [ ] Force run - move scheduled job to sms_queue immediately.
+- [ ] Add optional --only-scheduled or scheduled-before filter to export.
