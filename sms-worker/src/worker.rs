@@ -1,6 +1,7 @@
 use std::sync::Arc;
 
 use redis::{AsyncCommands, Commands};
+use sms_core::models::job::OutgoingJob;
 use tracing::{error, info};
 
 use crate::{
@@ -17,7 +18,7 @@ impl Worker {
         Self { client, config }
     }
 
-    pub async fn run(&self) -> AppResult<()> {
+    pub async fn run(&self) -> anyhow::Result<()> {
         info!("Worker listening on queue: sms_queue");
         info!("Worker processing delayed messages from: sms_delayed_queue");
 
