@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-sqlx = { version = "0.8.6", features = ["postgres", "runtime-tokio", "macros"] }
+sqlx.workspace = true
 thiserror.workspace = true
 anyhow.workspace = true
 tokio.workspace = true
@@ -13,3 +13,4 @@ serde_json.workspace = true
 redis.workspace = true
 uuid.workspace = true
 chrono.workspace = true
+validator.workspace = true

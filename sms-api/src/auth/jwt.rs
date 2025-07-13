@@ -5,6 +5,8 @@ use serde::{Deserialize, Serialize};
 pub struct Claims {
     pub sub: String,
     pub exp: i64,
+    pub roles: Vec<String>,
+    pub permissions: Vec<String>,
 }
 
 const JWT_SECRET: &[u8] = b"secret-key";

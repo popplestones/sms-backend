@@ -7,15 +7,28 @@ use axum_extra::{
     headers::{Authorization, authorization::Bearer},
 };
 
-use crate::auth::jwt::{self, Claims};
+use crate::{
+    auth::jwt::{self, Claims},
+    rejection::RequestRejection,
+};
 
 pub struct AuthenticatedUser(pub Claims);
+
+impl AuthenticatedUser {
+    pub fn can(&self, permission: &str) -> bool {
+        self.0.permissions.iter().any(|p| p == permission)
+    }
+
+    pub fn has_role(&self, role: &str) -> bool {
+        self.0.roles.iter().any(|r| r == role)
+    }
+}
 
 impl<S> FromRequestParts<S> for AuthenticatedUser
 where
     S: Send + Sync + 'static,
 {
-    type Rejection = (StatusCode, String);
+    type Rejection = RequestRejection;
 
     fn from_request_parts(
         parts: &mut Parts,
@@ -27,15 +40,16 @@ where
                 TypedHeader::<Authorization<Bearer>>::from_request_parts(parts, state)
                     .await
                     .map_err(|_| {
-                        (
+                        RequestRejection(
                             StatusCode::UNAUTHORIZED,
                             "Missing Authorization header".to_string(),
                         )
                     })?;
 
             let token = auth.0.token();
-            let token_data = jwt::decode_jwt(token)
-                .map_err(|_| (StatusCode::UNAUTHORIZED, "Invalid JWT".to_string()))?;
+            let token_data = jwt::decode_jwt(token).map_err(|_| {
+                RequestRejection(StatusCode::UNAUTHORIZED, "Invalid JWT".to_string())
+            })?;
 
             Ok(AuthenticatedUser(token_data.claims))
         };

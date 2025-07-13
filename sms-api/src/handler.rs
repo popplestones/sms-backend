@@ -7,11 +7,14 @@ use sms_core::models::{SmsSubmission, job::OutgoingJob};
 use tracing::{error, info};
 use uuid::Uuid;
 
-use crate::state::AppState;
+use crate::{
+    auth::extractor::AuthenticatedUser, extractors::validated_json::ValidatedJson, state::AppState,
+};
 
 pub async fn send_sms(
     State(state): State<Arc<AppState>>,
-    Json(submission): Json<SmsSubmission>,
+    AuthenticatedUser(user): AuthenticatedUser,
+    ValidatedJson(submission): ValidatedJson<SmsSubmission>,
 ) -> impl IntoResponse {
     let job = OutgoingJob {
         id: Uuid::new_v4(),

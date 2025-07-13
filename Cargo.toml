@@ -26,3 +26,7 @@ rand = "0.9.1"
 uuid = { version = "1.17.0", features = ["serde", "v4"] }
 chrono = { version = "0.4.41", features = ["serde"] }
 clap = { version = "4.5.41", features = ["derive"] }
+futures = "0.3.31"
+validator = { version = "0.20.0", features = ["derive"] }
+sqlx = { version = "0.8.6", features = ["postgres", "runtime-tokio", "macros"] }
+hex = "0.4.3"
