@@ -8,19 +8,23 @@ use axum_extra::{
 };
 
 use crate::{
-    auth::jwt::{self, Claims},
+    auth::{
+        jwt::{self, Claims},
+        permissions::Permission,
+        roles::Role,
+    },
     rejection::RequestRejection,
 };
 
 pub struct AuthenticatedUser(pub Claims);
 
 impl AuthenticatedUser {
-    pub fn can(&self, permission: &str) -> bool {
-        self.0.permissions.iter().any(|p| p == permission)
+    pub fn can(&self, permission: Permission) -> bool {
+        self.0.permissions.contains(&permission)
     }
 
-    pub fn has_role(&self, role: &str) -> bool {
-        self.0.roles.iter().any(|r| r == role)
+    pub fn has_role(&self, role: Role) -> bool {
+        self.0.roles.contains(&role)
     }
 }
 

@@ -42,7 +42,7 @@ impl DelayedProcessor {
     }
 
     async fn process_ready_messages(&self) -> AppResult<()> {
-        //     let mut con = self.client.get_multiplexed_async_connection().await?;
+        let mut _con = self.client.get_multiplexed_async_connection().await?;
         //     let current_time = chrono::Utc::now().timestamp() as f64;
         //
         //     let ready_message: Vec<String> = con

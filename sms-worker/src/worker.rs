@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use redis::{AsyncCommands, Commands};
+use redis::AsyncCommands;
 use sms_core::models::job::OutgoingJob;
 use tracing::{error, info};
 

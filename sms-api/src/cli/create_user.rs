@@ -2,6 +2,8 @@ use anyhow::Context;
 use chrono::{Duration, Utc};
 use jsonwebtoken::{EncodingKey, Header, encode};
 
+use crate::auth::{permissions::Permission, roles::Role};
+
 #[derive(clap::Args)]
 pub struct Args {
     #[arg(short, long)]
@@ -29,16 +31,18 @@ pub fn run(args: Args) -> anyhow::Result<()> {
         .unwrap_or_default()
         .split(',')
         .filter(|s| !s.trim().is_empty())
-        .map(|s| s.trim().to_string())
-        .collect();
+        .map(|s| s.trim().parse::<Permission>())
+        .collect::<Result<Vec<_>, _>>()
+        .context("Failed to parse permissions")?;
 
     let roles = args
         .roles
         .unwrap_or_default()
         .split(',')
         .filter(|s| !s.trim().is_empty())
-        .map(|s| s.trim().to_string())
-        .collect();
+        .map(|s| s.trim().parse::<Role>())
+        .collect::<Result<Vec<_>, _>>()
+        .context("Failed to parse roles")?;
 
     let exp = (Utc::now() + Duration::hours(args.expiry_hours as i64)).timestamp();
 

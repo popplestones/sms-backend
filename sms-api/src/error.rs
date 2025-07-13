@@ -16,7 +16,7 @@ impl IntoResponse for AppError {
     fn into_response(self) -> axum::response::Response {
         let (status, message): (StatusCode, &str) = match self {
             AppError::Env(_) => (StatusCode::INTERNAL_SERVER_ERROR, "Internal server error"),
-            AppError::Redis(e) => (StatusCode::INTERNAL_SERVER_ERROR, "Internal server error"),
+            AppError::Redis(_) => (StatusCode::INTERNAL_SERVER_ERROR, "Internal server error"),
         };
         (status, Json(json!({ "error": message }))).into_response()
     }

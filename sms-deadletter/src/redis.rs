@@ -57,7 +57,7 @@ pub async fn requeue_job_by_index(
 
     let _: () = con.lrem("sms_dead_letter", 1, "__DELETED__").await?;
 
-    return Ok(());
+    Ok(())
 }
 
 pub async fn requeue_all_jobs(
@@ -71,12 +71,12 @@ pub async fn requeue_all_jobs(
             continue;
         }
 
-        if serde_json::from_str::<OutgoingJob>(&job).is_ok() {
+        if serde_json::from_str::<OutgoingJob>(job).is_ok() {
             // Push to main queue
-            let _: () = con.rpush("sms_queue", &job).await?;
+            let _: () = con.rpush("sms_queue", job).await?;
 
             // Mark for deletion
-            let _: () = con.lrem("sms_dead_letter", 1, &job).await?;
+            let _: () = con.lrem("sms_dead_letter", 1, job).await?;
             requeued += 1;
         }
     }
