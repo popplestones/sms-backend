@@ -40,7 +40,7 @@ pub fn run(args: Args) -> anyhow::Result<()> {
         .map(|s| s.trim().to_string())
         .collect();
 
-    let exp = (Utc::now() + Duration::hours(args.expiry_hours)).timestamp() as usize;
+    let exp = (Utc::now() + Duration::hours(args.expiry_hours as i64)).timestamp();
 
     let claims = crate::auth::jwt::Claims {
         sub: args.user_id,

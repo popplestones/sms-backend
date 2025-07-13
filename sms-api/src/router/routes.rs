@@ -3,10 +3,11 @@ use std::sync::Arc;
 use axum::{Json, extract::State, response::IntoResponse};
 use sms_core::models::SmsSubmission;
 
-use crate::state::AppState;
+use crate::{auth::extractor::AuthenticatedUser, state::AppState};
 
 pub async fn send_sms(
     State(_state): State<Arc<AppState>>,
+    AuthenticatedUser(_ser): AuthenticatedUser,
     Json(_submission): Json<SmsSubmission>,
 ) -> impl IntoResponse {
     // Step 1. Authentication - handle in middleware

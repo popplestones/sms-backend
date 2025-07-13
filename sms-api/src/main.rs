@@ -25,6 +25,10 @@ async fn main() -> anyhow::Result<()> {
             cli::generate_app_key::run(args)?;
             return Ok(());
         }
+        Some(Command::CreateUser(args)) => {
+            cli::create_user::run(args)?;
+            return Ok(());
+        }
         None => {}
     }
 
